@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rw_courses/constants/index.dart';
 import 'package:rw_courses/data/index.dart';
+import 'package:rw_courses/ui/courses/courses_detail.dart';
 
 import 'courses_controller.dart';
 
@@ -38,27 +39,49 @@ class _CoursesPageState extends State<CoursesPage> {
   }
 
   Widget _buildRow(Course course) {
-    return Padding(
-      padding: const EdgeInsets.all(18),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            course.name,
-            style: const TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 18,
-            ),
+    // var coursesNamed = course.name.length > 30
+    //     ? course.name.substring(0, 30) + "..."
+    //     : course.name;
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CoursesDetail(course: course),
           ),
-          Text(
-            course.description,
-            maxLines: 3,
-            style: const TextStyle(
-              color: Colors.grey,
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(18),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    course.name,
+                    style: const TextStyle(
+                      color: Color.fromARGB(216, 29, 26, 26),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                    ),
+                  ),
+                  Text(
+                    'Flutter',
+                    style: TextStyle(color: Colors.grey[600]),
+                  )
+                ],
+              ),
             ),
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
+            Image.network(
+              course.artworkUrl,
+              width: 50,
+              height: 50,
+            ),
+          ],
+        ),
       ),
     );
   }

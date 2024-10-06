@@ -8,7 +8,7 @@ class CoursesRepository implements Repository {
   @override
   Future<List<Course>> getCourses(int domainFilter) async {
     final courses = <Course>[];
-    var url = Constants.RW_API;
+    var url = Constants.rwAPI;
     if (domainFilter != Constants.allFilter) {
       //Nếu có lọc dữ liệu
       url += '&filter[domain_ids][]=$domainFilter';

@@ -1,7 +1,7 @@
 //Các hằng số cài đăt, cấu hình, biến tĩnh được sử dụng xuyên suốt trong ứng dụng
 class Constants {
   //RW API
-  static const String RW_API =
+  static const String rwAPI =
       'https://api.raywenderlich.com/api/contents?filter[content_types][]=collection';
   //Giá trị từ RW API
   static const String iosDomain = '1';
