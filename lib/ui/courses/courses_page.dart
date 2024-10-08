@@ -21,9 +21,13 @@ class _CoursesPageState extends State<CoursesPage> {
       future: _controller.fetchCourses(Constants.allFilter),
       builder: (context, snapshot) {
         final courses = snapshot.data;
+        if (snapshot.hasError) {
+          return Text('${snapshot.error}');
+        }
         if (courses == null) {
           return const Center(child: CircularProgressIndicator());
         }
+
         return ListView.builder(
           itemCount: courses.length,
           //itemBuilder sẽ được gọi ở mỗi phần tử
@@ -33,56 +37,24 @@ class _CoursesPageState extends State<CoursesPage> {
             final course = courses[index];
             return _buildRow(course);
           },
+          padding: const EdgeInsets.all(16),
         );
       },
     );
   }
 
   Widget _buildRow(Course course) {
-    // var coursesNamed = course.name.length > 30
-    //     ? course.name.substring(0, 30) + "..."
-    //     : course.name;
-    return InkWell(
+    return ListTile(
+      title: Text('${course.name}'),
+      trailing:
+          course.artworkUrl != null ? Image.network(course.artworkUrl) : null,
+      subtitle: Text(course.domainsString),
       onTap: () {
         Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => CoursesDetail(course: course),
-          ),
-        );
+            context,
+            MaterialPageRoute(
+                builder: (context) => CoursesDetail(course: course)));
       },
-      child: Padding(
-        padding: const EdgeInsets.all(18),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    course.name,
-                    style: const TextStyle(
-                      color: Color.fromARGB(216, 29, 26, 26),
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14,
-                    ),
-                  ),
-                  Text(
-                    'Flutter',
-                    style: TextStyle(color: Colors.grey[600]),
-                  )
-                ],
-              ),
-            ),
-            Image.network(
-              course.artworkUrl,
-              width: 50,
-              height: 50,
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
